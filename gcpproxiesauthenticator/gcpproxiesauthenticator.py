@@ -104,7 +104,7 @@ class ProxyUserLoginHandler(BaseHandler):
         raise web.HTTPError(400, 'Mismatch Authentication method and Header.')
 
       # username, _ = user_email.split("@")
-      username = user_email.lower()
+      username = user_email.lower().split("@")
       user = self.user_from_username(username)
 
       # JupyterHub doesn't set the value for that key for some reason.
@@ -121,7 +121,7 @@ class ProxyUserLoginHandler(BaseHandler):
               self.authenticator.template_to_render,
               user=user,
               next_url=self.get_next_url(user),
-          )
+          ).encode('utf8')
       )
 
 
