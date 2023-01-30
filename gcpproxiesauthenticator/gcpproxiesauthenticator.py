@@ -177,8 +177,19 @@ class GCPProxiesAuthenticator(Authenticator):
         'welcome.html'. """
     )
 
-    def get_handlers(self, app):
-        return [(r'/login', self.login_handler)]
+    async def authenticate(self, handler, data):
+        """Checks against a global password if it's been set. If not, allow any user/pass combo"""
+
+        _, user_email, _ = validate_iap_jwt_from_compute_engine(
+            handler.headers.get("X-Goog-IAP-JWT-Assertion", ""),
+            self.authenticator.project_number,
+            self.backend_service_id
+        )
+
+        if user_email:
+            username = user_email.lower().split("@")
+            return username
+
 
 
 # Cloud IAP related functions.
