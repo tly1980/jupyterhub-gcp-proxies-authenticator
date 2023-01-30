@@ -180,6 +180,8 @@ class GCPProxiesAuthenticator(Authenticator):
     async def authenticate(self, handler, data):
         """Checks against a global password if it's been set. If not, allow any user/pass combo"""
 
+        self.log.info('using authenticate function')
+
         _, user_email, _ = validate_iap_jwt_from_compute_engine(
             handler.headers.get("X-Goog-IAP-JWT-Assertion", ""),
             self.authenticator.project_number,
