@@ -171,6 +171,12 @@ class GCPProxiesAuthenticator(Authenticator):
         example in a local environment. """,
     )
 
+    template_to_render = Unicode(
+        config=True,
+        help=""" HTML page to render once the user is authenticated. For example
+        'welcome.html'. """
+    )
+
     async def authenticate(self, handler, data):
         """Checks against a global password if it's been set. If not, allow any user/pass combo"""
 
