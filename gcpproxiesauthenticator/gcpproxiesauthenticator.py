@@ -64,20 +64,23 @@ class ProxyUserLoginHandler(BaseHandler):
         self.log.info(f'user_email is {user_email}')
 
       elif self.authenticator.check_header == "X-Goog-IAP-JWT-Assertion":
+        backend_service_id = self.authenticator.backend_service_id
 
-        from googleapiclient import discovery
-        from oauth2client.client import GoogleCredentials
+        # if the backend_service_id is not provided we will have to retrive it
+        if not backend_service_id:
+            from googleapiclient import discovery
+            from oauth2client.client import GoogleCredentials
 
-        credentials = GoogleCredentials.get_application_default()
-        compute = discovery.build('compute', 'v1', credentials=credentials,
-                                  cache_discovery=False)
+            credentials = GoogleCredentials.get_application_default()
+            compute = discovery.build('compute', 'v1', credentials=credentials,
+                                    cache_discovery=False)
 
-        request = compute.backendServices().get(
-            project=self.authenticator.project_id,
-            backendService=self.authenticator.backend_service_name
-        )
-        backend_service = request.execute()
-        backend_service_id = backend_service['id']
+            request = compute.backendServices().get(
+                project=self.authenticator.project_id,
+                backendService=self.authenticator.backend_service_name
+            )
+            backend_service = request.execute()
+            backend_service_id = backend_service['id']
 
         self.log.info(f'''self.authenticator.check_header name is
             {self.authenticator.check_header}''')
@@ -151,6 +154,12 @@ class GCPProxiesAuthenticator(Authenticator):
         config=True,
         help=""" Name of the backend service where JupyterHub is deployed. Used
         with project_id, gets the backend service ID required to verify IAP.""",
+    )
+
+    backend_service_id = Unicode(
+        '',
+        config=True,
+        help=""" An integer of the backend_service_id.""",
     )
 
     dummy_email = Unicode(
