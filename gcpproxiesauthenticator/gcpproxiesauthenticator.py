@@ -126,13 +126,6 @@ class ProxyUserLoginHandler(BaseHandler):
 
 
 class GCPProxiesAuthenticator(Authenticator):
-    """ ProxyUser authenticator.
-
-    Uses a header that refers to the already logged in user to do a silent
-    authentication to JupyterHub.
-    """
-    login_handler = ProxyUserLoginHandler
-
     check_header = Unicode(
         '',
         config=True,
