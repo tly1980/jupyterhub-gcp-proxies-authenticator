@@ -65,9 +65,11 @@ class ProxyUserLoginHandler(BaseHandler):
 
       elif self.authenticator.check_header == "X-Goog-IAP-JWT-Assertion":
         backend_service_id = self.authenticator.backend_service_id
+        self.log.info(f'backend_service_id is {backend_service_id}')
 
         # if the backend_service_id is not provided we will have to retrive it
         if not backend_service_id:
+            self.log.info('trying to retrive backend_service_id')
             from googleapiclient import discovery
             from oauth2client.client import GoogleCredentials
 
