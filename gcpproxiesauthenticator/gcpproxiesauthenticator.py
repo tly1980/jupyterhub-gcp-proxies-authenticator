@@ -183,7 +183,10 @@ class GCPProxiesAuthenticator(Authenticator):
 
         if user_email:
             username = user_email.lower().split("@")
-            return username
+            return {
+                'name': username,
+                'auth_state': {},
+            }
 
 
 
