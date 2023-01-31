@@ -189,11 +189,14 @@ class GCPProxiesAuthenticator(Authenticator):
         self.log.info(f'user_email: {user_email}')
 
         if user_email:
-            username = user_email.lower().split("@")
-            return {
+            username = user_email.lower().split("@")[0]
+            user = {
                 'name': username,
                 'auth_state': {},
             }
+
+            self.log.info(f'login user: {user}')
+            return user
 
 
 
