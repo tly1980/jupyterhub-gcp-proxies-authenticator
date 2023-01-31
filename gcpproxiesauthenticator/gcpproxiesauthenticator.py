@@ -186,7 +186,7 @@ class GCPProxiesAuthenticator(Authenticator):
             self.backend_service_id
         )
 
-        self.log(f'user_email: {user_email}')
+        self.log.info(f'user_email: {user_email}')
 
         if user_email:
             username = user_email.lower().split("@")
