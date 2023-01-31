@@ -126,6 +126,11 @@ class ProxyUserLoginHandler(BaseHandler):
 
 
 class GCPProxiesAuthenticator(Authenticator):
+
+    auto_login = True
+
+    login_service = 'GCP_IAP_Proxy'
+
     check_header = Unicode(
         '',
         config=True,
