@@ -181,7 +181,7 @@ class GCPProxiesAuthenticator(Authenticator):
         self.log.info('using authenticate function')
 
         _, user_email, _ = validate_iap_jwt_from_compute_engine(
-            handler.headers.get("X-Goog-IAP-JWT-Assertion", ""),
+            handler.request.headers.get("X-Goog-IAP-JWT-Assertion", ""),
             self.authenticator.project_number,
             self.backend_service_id
         )
